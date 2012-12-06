@@ -8,7 +8,7 @@ remove_action('wp_head', 'wp_generator');
 		$args = array(
 			'post_type' => 'attachment', // Images attached to the post
 			'numberposts' => -1, // Get all attachments
-			'post_status' => null, // I don’t care about status for gallery images
+			'post_status' => null, // I don't care about status for gallery images
 			'post_parent' => $post->ID, // The parent post
 			'post_mime_type' => 'image', // The attachment type
 			'order' => 'ASC',
@@ -49,10 +49,25 @@ remove_action('wp_head', 'wp_generator');
 	'after_title' => '</h2>',
 	));
 
-	// Customisable menu
+	// Customizable menu
 	function register_my_menus() {
 	  register_nav_menus(
 		array('header-menu' => __( 'Header Menu' ) )
 	  );
 	}
-?>
+
+	// /project/99 => /?p=99
+	add_filter('rewrite_rules_array', function($rules) use($wp_rewrite) {
+		$new_rules = array('^project\/(\d+)?$' => 'index.php?post_redirect=$matches[1]');
+		return $new_rules + $rules;
+	});
+	add_filter('query_vars', function($qvars) {
+		$qvars[] = 'post_redirect';
+		return $qvars;
+	});
+	add_action('template_redirect', function(){
+		if (get_query_var('post_redirect')) {
+			wp_redirect(home_url('/?p='.get_query_var('post_redirect')), 301);
+			exit;
+		}
+	});
