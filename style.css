@@ -165,9 +165,12 @@ filter: dropshadow(color=#fff, offx=1, offy=1);
 
 .single .category-images-cote-a-cote{margin-top:7%;}
 .single .category-images-cote-a-cote img{
-float:left;
-margin:0% 2% 10px 0;
-cursor:default;
+  float:left;
+  margin:0% 2% 2% 0;
+  cursor:default;
+}
+.single .category-images-cote-a-cote .gallery-row img:first-child{
+  clear:left;
 }
 /*Arles-Paris*/
 #post-186{width:760px;}
