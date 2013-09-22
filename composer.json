@@ -1,7 +1,11 @@
 {
     "name": "bpierre/carolinelollo.fr",
     "require": {
-        "vlucas/bulletphp": "*"
+        "vlucas/bulletphp": "*",
+        "atelierspierrot/markdown-extended": "dev-master"
+    },
+    "autoload": {
+      "classmap": ["app/lib/"]
     },
     "authors": [
         {
