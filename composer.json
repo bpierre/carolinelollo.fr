@@ -1,0 +1,12 @@
+{
+    "name": "bpierre/carolinelollo.fr",
+    "require": {
+        "vlucas/bulletphp": "*"
+    },
+    "authors": [
+        {
+            "name": "Pierre Bertet",
+            "email": "bonjour@pierrebertet.net"
+        }
+    ]
+}
