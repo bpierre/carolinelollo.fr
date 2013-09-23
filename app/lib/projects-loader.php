@@ -14,6 +14,9 @@ class ProjectsLoader {
 
   private function get_names($order_prefixes = TRUE) {
     $projects_dirs = glob("$this->projects_dir/*" , GLOB_ONLYDIR);
+    $projects_dirs = array_filter($projects_dirs, function($dir) {
+      return !preg_match('/_off$/', $dir);
+    });
     $projects_dirs = array_map(function($dir) use($order_prefixes) {
       if ($order_prefixes) return basename($dir);
       return $this->remove_prefix_order(basename($dir));
@@ -68,7 +71,6 @@ class ProjectsLoader {
   function get_prev($current) {
     return $this->get_sibling($current, -1);
   }
-
 
   function get_all() {
     $projects_names = $this->get_names();
