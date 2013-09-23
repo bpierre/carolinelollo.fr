@@ -21,7 +21,7 @@ class ProjectsLoader {
       if ($order_prefixes) return basename($dir);
       return $this->remove_prefix_order(basename($dir));
     }, $projects_dirs);
-    return $projects_dirs;
+    return array_reverse($projects_dirs);
   }
 
   private function project_exists($name) {
