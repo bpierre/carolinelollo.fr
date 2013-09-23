@@ -32,11 +32,13 @@ $app->param('slug', function($request, $project_name) use($app, $projects_loader
   $app->get(function($request) use($app, $project_name, $projects_loader) {
     $project = $projects_loader->get($project_name);
     if (!$project) return FALSE;
+    $html_classes = 'single';
+    if (!trim($project->html())) $html_classes .= ' no-description';
     return $app->template('project')->set([
       'next_project' => $projects_loader->get_next($project_name),
       'prev_project' => $projects_loader->get_prev($project_name),
       'project' => $project,
-      'html_classes' => 'single',
+      'html_classes' => $html_classes,
     ]);
   });
 });

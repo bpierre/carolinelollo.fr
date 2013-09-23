@@ -166,7 +166,7 @@ body {
   width:100%;
 }
 
-.post .images.nocontent{
+.single.no-description .post .images {
   margin:35px 1% 0 1%;
   width:98%;
 }
