@@ -51,6 +51,25 @@ class ProjectsLoader {
       $path, "/projects/$p_name", $data);
   }
 
+  function get_sibling($current, $diff) {
+    $all_projects = $this->get_all();
+    foreach ($all_projects as $i => $project) {
+      if ($project->name === $current) {
+        return isset($all_projects[$i + $diff])? $all_projects[$i + $diff] : NULL;
+      }
+    }
+    return NULL;
+  }
+
+  function get_next($current) {
+    return $this->get_sibling($current, 1);
+  }
+
+  function get_prev($current) {
+    return $this->get_sibling($current, -1);
+  }
+
+
   function get_all() {
     $projects_names = $this->get_names();
     $projects = [];
