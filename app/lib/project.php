@@ -15,22 +15,37 @@ class Project {
     if ($data !== NULL) $this->set_data($data);
   }
 
+  /**
+   * @returns a MarkdownExtended instance
+   */
   private function get_markdown_parser($data) {
     return \MarkdownExtended\MarkdownExtended::create([
       'html_empty_element_suffix' => '>',
     ])->transformString($data);
   }
 
-  private function resize_image($path, $width) {
+  /**
+   * Resize and writes an image to create the preview image
+   *
+   * @param $path The image to resize
+   * @param $width The preview width
+   */
+  private function resize_to_preview($path, $width) {
     $thumb = new Imagick($path);
     $thumb->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
     $thumb->writeImage("$this->path/preview.jpg");
   }
 
+  /**
+   * Updates the MarkdownExtended with a new source
+   */
   function set_data($data) {
     $this->md_extended = $this->get_markdown_parser($data);
   }
 
+  /**
+   * @returns An array containing the parsed metas
+   */
   function metas() {
     if (!$this->metas_cache) {
       $this->metas_cache = $this->md_extended->getMetadata();
@@ -38,10 +53,16 @@ class Project {
     return $this->metas_cache;
   }
 
+  /**
+   * @returns A string containing the HTML result of the Markdown description
+   */
   function html() {
-    return $this->md_extended->getBody();
+    return trim($this->md_extended->getBody());
   }
 
+  /**
+   * @returns An array containing all the images names of a project
+   */
   function images_names() {
     $images = glob("$this->path/images/*.jpg");
     return array_map(function($image) {
@@ -49,6 +70,9 @@ class Project {
     }, $images);
   }
 
+  /**
+   * @returns an array containing all the images in objects (url, dimensions)
+   */
   function images() {
     $images = $this->images_names();
     $images = array_map(function($name) {
@@ -58,6 +82,11 @@ class Project {
     return $images;
   }
 
+  /**
+   * @param $path the image path on the filesystem
+   * @param $url the image URL
+   * @returns an image object (url, width, height)
+   */
   private function image_object($path, $url) {
     $size = getimagesize($path);
     return (object)[
@@ -67,7 +96,11 @@ class Project {
     ];
   }
 
-  private function find_thumbnail_name() {
+  /**
+   * Tries to find the best image to use for the preview image
+   * @returns A string corresponding to the best fit image name
+   */
+  private function find_preview_name() {
     $metas = $this->metas();
     if (!empty($metas['thumbnail'])) {
       $name = $metas['thumbnail'];
@@ -77,10 +110,17 @@ class Project {
     return $images[0];
   }
 
-  function thumbnail($width) {
+  /**
+   * Creates the preview image if it does not exists, and returns an object
+   * corresponding to the preview image.
+   *
+   * @param $width The desired width, if a resize is triggered
+   * @returns An image object corresponding to the preview image
+   */
+  function preview($width) {
     if (!file_exists("$this->path/preview.jpg")) {
-      $thumbnail = $this->find_thumbnail_name();
-      $this->resize_image("$this->path/images/$thumbnail", $width);
+      $thumbnail = $this->find_preview_name();
+      $this->resize_to_preview("$this->path/images/$thumbnail", $width);
     }
     return $this->image_object("$this->path/preview.jpg",
       "$this->url/preview.jpg");

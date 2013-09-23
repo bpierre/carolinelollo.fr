@@ -1,7 +1,7 @@
 
 <div id="content">
 	<?php foreach ($projects as $project): ?>
-	<?php $thumbnail = $project->thumbnail(270) ?>
+	<?php $thumbnail = $project->preview(270) ?>
 	<div class="thumb">
 		<a href="/<?= $project->name ?>">
 			<img width="<?= $thumbnail->width ?>" height="<?= $thumbnail->height ?>" src="<?= $thumbnail->url ?>" class="attachment-medium wp-post-image">
