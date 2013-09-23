@@ -8,16 +8,21 @@ class ProjectsLoader {
     $this->projects_dir = $projects_dir;
   }
 
-  private function get_names() {
+  function remove_prefix_order($dirname) {
+    return preg_replace('/^[0-9]+\-/', '', $dirname);
+  }
+
+  private function get_names($order_prefixes = TRUE) {
     $projects_dirs = glob("$this->projects_dir/*" , GLOB_ONLYDIR);
-    $projects_dirs = array_map(function($dir) {
-      return basename($dir);
+    $projects_dirs = array_map(function($dir) use($order_prefixes) {
+      if ($order_prefixes) return basename($dir);
+      return $this->remove_prefix_order(basename($dir));
     }, $projects_dirs);
     return $projects_dirs;
   }
 
   private function project_exists($name) {
-    $names = $this->get_names();
+    $names = $this->get_names(FALSE);
     return in_array($name, $names);
   }
 
@@ -25,19 +30,32 @@ class ProjectsLoader {
     return "$this->projects_dir/$name";
   }
 
+  private function name_to_prefixed($name) {
+    $prefixed_names = $this->get_names(TRUE);
+    foreach ($prefixed_names as $p_name) {
+      if ($this->remove_prefix_order($p_name) === $name) {
+        return $p_name;
+      }
+    }
+    return NULL;
+  }
+
   function get($name) {
     if (!$this->project_exists($name)) return NULL;
-    $path = $this->project_path($name);
+    $p_name = $this->name_to_prefixed($name);
+    $path = $this->project_path($p_name);
     $data = file_get_contents("$path/project.md");
     if ($data === FALSE) return NULL;
-    return new Project($name, $path, $data);
+    return new Project(
+      $this->remove_prefix_order($name),
+      $path, "/projects/$p_name", $data);
   }
 
   function get_all() {
     $projects_names = $this->get_names();
     $projects = [];
     foreach ($projects_names as $name) {
-      $project = $this->get($name);
+      $project = $this->get($this->remove_prefix_order($name));
       if ($project) $projects[] = $project;
     }
     return $projects;

@@ -31,6 +31,7 @@ $app->path('/about', function($request) use($app) {
 $app->param('slug', function($request, $project_name) use($app, $projects_loader) {
   $app->get(function($request) use($app, $project_name, $projects_loader) {
     $project = $projects_loader->get($project_name);
+    if (!$project) return FALSE;
     return $app->template('project')->set([
       'project' => $project,
       'html_classes' => 'single',

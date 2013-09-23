@@ -4,12 +4,14 @@ class Project {
 
   public $name;
   public $path;
+  public $url;
   private $md_extended;
   private $metas_cache;
 
-  function __construct($name, $path, $data=NULL) {
+  function __construct($name, $path, $url, $data=NULL) {
     $this->name = $name;
     $this->path = $path;
+    $this->url = $url;
     if ($data !== NULL) $this->set_data($data);
   }
 
@@ -51,7 +53,7 @@ class Project {
     $images = $this->images_names();
     $images = array_map(function($name) {
       return $this->image_object("$this->path/images/$name",
-        "/projects/$this->name/images/$name");
+        "$this->url/images/$name");
     }, $images);
     return $images;
   }
@@ -81,7 +83,7 @@ class Project {
       $this->resize_image("$this->path/images/$thumbnail", $width);
     }
     return $this->image_object("$this->path/preview.jpg",
-      "/projects/$this->name/preview.jpg");
+      "$this->url/preview.jpg");
   }
 }
 
