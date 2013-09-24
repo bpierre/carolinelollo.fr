@@ -12,7 +12,7 @@
 	<div id="main">
 		<div class="doubleHeader" id="header">
 			<header>
-				<?php if (empty($_GET['u'])): ?>
+				<?php if (isset($home_header) && $home_header === TRUE): ?>
 				<h1>
 					<a class="fat" href="/">Caroline Lollo</a>
 				</h1>
