@@ -55,7 +55,7 @@ class ProjectsLoader {
   }
 
   function get_sibling($current, $diff, $no_externals=FALSE) {
-    $projects = $this->get_all();
+    $projects = $this->get_all($no_externals);
     foreach ($projects as $i => $project) {
       if ($project->name !== $current) continue;
       $index = $i + $diff;
@@ -74,12 +74,14 @@ class ProjectsLoader {
     return $this->get_sibling($current, -1, $no_externals);
   }
 
-  function get_all() {
+  function get_all($no_externals=FALSE) {
     $projects_names = $this->get_names();
     $projects = [];
     foreach ($projects_names as $name) {
       $project = $this->get($this->remove_prefix_order($name));
-      if ($project) $projects[] = $project;
+      if ($project && !($no_externals && $project->is_external())) {
+        $projects[] = $project;
+      }
     }
     return $projects;
   }
