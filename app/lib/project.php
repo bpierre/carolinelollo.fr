@@ -50,6 +50,7 @@ class Project {
    * Updates the MarkdownExtended with a new source
    */
   function set_data($data) {
+    $data = str_replace('./', "$this->base_url/", $data);
     $this->md_extended = $this->get_markdown_parser($data);
   }
 
