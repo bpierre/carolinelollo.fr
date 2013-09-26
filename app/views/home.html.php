@@ -3,7 +3,7 @@
 	<?php foreach ($projects as $project): ?>
 	<?php $thumbnail = $project->preview(270) ?>
 	<div class="thumb">
-		<a href="/<?= $project->name ?>">
+		<a href="<?= $project->url() ?>">
 			<img width="<?= $thumbnail->width ?>" height="<?= $thumbnail->height ?>" src="<?= $thumbnail->url ?>" class="attachment-medium wp-post-image">
 		</a>
 	</div>

@@ -4,15 +4,25 @@ class Project {
 
   public $name;
   public $path;
-  public $url;
+  public $base_url;
   private $md_extended;
   private $metas_cache;
 
-  function __construct($name, $path, $url, $data=NULL) {
+  function __construct($name, $path, $base_url, $data=NULL) {
     $this->name = $name;
     $this->path = $path;
-    $this->url = $url;
+    $this->base_url = $base_url;
     if ($data !== NULL) $this->set_data($data);
+  }
+
+  /**
+   * Whether the project is external or not.
+   *
+   * @returns TRUE if the project is public, FALSE otherwise.
+   */
+  public function is_external() {
+    $metas = $this->metas();
+    return !empty($metas['external']);
   }
 
   /**
@@ -61,6 +71,17 @@ class Project {
   }
 
   /**
+   * @returns the project URL
+   */
+  function url() {
+    if ($this->is_external()) {
+      $metas = $this->metas();
+      return $metas['external'];
+    }
+    return "/$this->name";
+  }
+
+  /**
    * @returns An array containing all the images names of a project
    */
   function images_names() {
@@ -77,7 +98,7 @@ class Project {
     $images = $this->images_names();
     $images = array_map(function($name) {
       return $this->image_object("$this->path/images/$name",
-        "$this->url/images/$name");
+        "$this->base_url/images/$name");
     }, $images);
     return $images;
   }
@@ -123,7 +144,7 @@ class Project {
       $this->resize_to_preview("$this->path/images/$thumbnail", $width);
     }
     return $this->image_object("$this->path/preview.jpg",
-      "$this->url/preview.jpg");
+      "$this->base_url/preview.jpg");
   }
 }
 

@@ -40,13 +40,12 @@ $app->path('/about', function($request) use($app) {
 $app->param('slug', function($request, $project_name) use($app, $projects_loader) {
   $app->get(function($request) use($app, $project_name, $projects_loader) {
     $project = $projects_loader->get($project_name);
-    if (!$project) return error_404($request, $app);
-
+    if (!$project || $project->is_external()) return error_404($request, $app);
     $html_classes = 'single';
     if (!trim($project->html())) $html_classes .= ' no-description';
     return $app->template('project')->set([
-      'next_project' => $projects_loader->get_next($project_name),
-      'prev_project' => $projects_loader->get_prev($project_name),
+      'next_project' => $projects_loader->get_next($project_name, TRUE),
+      'prev_project' => $projects_loader->get_prev($project_name, TRUE),
       'project' => $project,
       'html_classes' => $html_classes,
     ]);
