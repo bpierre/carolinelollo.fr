@@ -196,7 +196,8 @@ body {
   text-decoration:underline;
 }
 .post #desc p.spaced {
-  margin: 20px 0;
+  margin: 20px 0 20px 20px;
+  text-indent: 0;
 }
 .post #desc img{
   display: block;
