@@ -17,6 +17,7 @@ function error_404($request, $app) {
   $template->status(404);
   $template->set('html_classes', 'error-404');
   $template->set('home_header', TRUE);
+  $template->set('title', 'Page not found');
   return $template;
 }
 
@@ -32,6 +33,7 @@ $app->path('/', function($request) use($app, $projects_loader) {
 
 $app->path('/about', function($request) use($app) {
   return $app->template('about')->set([
+    'title' => 'About',
     'html_classes' => 'page',
   ]);
 });
@@ -44,6 +46,7 @@ $app->param('slug', function($request, $project_name) use($app, $projects_loader
     $html_classes = 'single';
     if (!trim($project->html())) $html_classes .= ' no-description';
     return $app->template('project')->set([
+      'title' => $project->metas()['title'],
       'next_project' => $projects_loader->get_next($project_name, TRUE),
       'prev_project' => $projects_loader->get_prev($project_name, TRUE),
       'project' => $project,
