@@ -1,4 +1,4 @@
-<div id="content">
+<div id="content" class="single">
 	<div id="postnav">
 		<?php if ($prev_project): ?>
 		<a href="<?= $prev_project->url() ?>" rel="prev">⇠</a>
@@ -7,7 +7,12 @@
 		<a href="<?= $next_project->url() ?>" rel="next">⇢</a>
 		<?php endif ?>
 	</div>
-	<div class="post type-post status-publish format-standard hentry category-non-classe post">
+	<?php
+		$classes = '';
+		$metas = $project->metas();
+		if (isset($metas['classes'])) $classes = $metas['classes'];
+	?>
+	<div class="post type-post hentry post <?= $classes ?>">
 		<article>
 			<div id="desc">
 				<?= $project->html() ?>
