@@ -2,8 +2,11 @@
 	<div id="post-2" class="post-2 page type-page status-publish hentry post">
 		<article>
 			<div id="info">
-				Caroline Lollo, photographer<br />
-				Graduated from <a href="http://www.ens-louis-lumiere.fr/">ENS Louis-Lumière</a>, Paris.
+				<p>
+					Caroline Lollo, photographer<br />
+					Graduated from <a href="http://www.ens-louis-lumiere.fr/">ENS Louis-Lumière</a>, Paris<br />
+					Live and work in London
+				</p>
 				<h2>Contact</h2>
 				<p>
 					<a href="mailto:bonjour@carolinelollo.fr">bonjour@carolinelollo.fr</a><br />
