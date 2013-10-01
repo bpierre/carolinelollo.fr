@@ -4,8 +4,8 @@
 			<div id="info">
 				<p>
 					Caroline Lollo, photographer<br />
-					Graduated from <a href="http://www.ens-louis-lumiere.fr/">ENS Louis-Lumière</a>, Paris<br />
-					Live and work in London
+					Live and work in London<br />
+					Graduated from <a href="http://www.ens-louis-lumiere.fr/">ENS Louis-Lumière</a>, Paris
 				</p>
 				<h2>Contact</h2>
 				<p>
