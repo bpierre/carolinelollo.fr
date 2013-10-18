@@ -2,8 +2,8 @@
 
 <http://carolinelollo.fr/>
 
-Design by @raphaelbastide <http://raphaelbastide.com/>,
-Code by @bpierre <http://pierrebertet.net>.
+Design by Raphaël Bastide <http://raphaelbastide.com/>  
+Code by Pierre Bertet <http://pierrebertet.net>
 
 [License MIT](http://pierre.mit-license.org/)
 
